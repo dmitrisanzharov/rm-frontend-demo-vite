@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Rentalmatics_-_Master" data-name="Rentalmatics - Master" xmlns="http://www.w3.org/2000/svg" width="37.59982mm" height="32.09461mm" viewBox="0 0 106.58217 90.97686">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+
+      .cls-2 {
+        fill: #fcbf14;
+      }
+    </style>
+  </defs>
+  <g id="Image_Mark" data-name="Image Mark">
+    <rect id="Path" class="cls-2" x="58.13692" y="58.12701" width="19.35586" height="32.84974"/>
+    <polygon id="Path-2" data-name="Path" class="cls-2" points="106.58217 90.97675 87.22631 90.97675 87.22631 48.43054 48.38115 48.43054 48.38115 90.97675 29.02529 90.97675 29.02529 29.07283 106.58217 29.07283 106.58217 90.97675"/>
+    <path class="cls-1" d="m19.35586,90.97686H0V10.75906C0,4.817,4.817,0,10.75906,0h95.80419v19.35772H19.35586v71.61915Z"/>
+  </g>
+</svg>
