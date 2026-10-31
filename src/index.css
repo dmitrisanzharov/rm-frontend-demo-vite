@@ -631,6 +631,77 @@ input {
   font-size: 10px;
 }
 
+.account-menu-container {
+  position: relative;
+}
+
+.account-avatar-button {
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.account-avatar-button:hover {
+  box-shadow: 0 0 0 3px rgb(253 192 16 / 24%);
+}
+
+.account-avatar-button:focus-visible {
+  outline: 2px solid #c98a00;
+  outline-offset: 3px;
+}
+
+.account-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 30;
+  width: 208px;
+  overflow: hidden;
+  border: 1px solid #e5e5e8;
+  border-radius: 7px;
+  padding: 5px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgb(25 25 30 / 14%);
+}
+
+.account-menu-profile {
+  display: grid;
+  gap: 4px;
+  padding: 10px;
+}
+
+.account-menu-profile strong {
+  color: #303034;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.account-menu-profile span {
+  color: #777780;
+  font-size: 10px;
+}
+
+.account-menu-logout {
+  display: flex;
+  width: 100%;
+  min-height: 36px;
+  align-items: center;
+  gap: 9px;
+  border: 0;
+  border-top: 1px solid #eeeef0;
+  border-radius: 4px;
+  padding: 0 10px;
+  color: #a83e35;
+  background: #fff;
+  cursor: pointer;
+  font-size: 11px;
+  text-align: left;
+}
+
+.account-menu-logout:hover {
+  background: #fdf2f1;
+}
+
 .dashboard-content {
   width: min(100%, 1560px);
   margin: 0 auto;

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from 'react'
+import { useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from 'react'
 import {
   BrowserRouter,
   Link,
@@ -68,6 +68,7 @@ type IconName =
   | 'device'
   | 'menu'
   | 'map'
+  | 'logout'
   | 'pin'
   | 'refresh'
   | 'search'
@@ -86,6 +87,7 @@ function Icon({ name, size = 18 }: { name: IconName; size?: number }) {
     device: <><rect x="5" y="3" width="14" height="18" rx="2" /><path d="M9 7h6m-6 4h6m-6 4h3" /></>,
     menu: <><path d="M4 6h16M4 12h16M4 18h16" /></>,
     map: <><path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3z" /><path d="M9 3v15m6-12v15" /></>,
+    logout: <><path d="M10 17l5-5-5-5m5 5H3" /><path d="M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6" /></>,
     pin: <><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" /><circle cx="12" cy="10" r="2.5" /></>,
     refresh: <><path d="M20 7v5h-5M4 17v-5h5" /><path d="M5.5 9A7 7 0 0 1 18 6l2 2M4 16l2 2a7 7 0 0 0 12.5-3" /></>,
     search: <><circle cx="10.8" cy="10.8" r="6.8" /><path d="m16 16 4.5 4.5" /></>,
@@ -380,6 +382,7 @@ function InteractiveFleetMap() {
 
 function FleetDashboard() {
   const { pathname } = useLocation()
+  const navigate = useNavigate()
   const currentPage =
     pathname === '/fleet'
       ? 'Fleet report'
@@ -392,9 +395,36 @@ function FleetDashboard() {
 
   const [collapsed, setCollapsed] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [accountMenuOpen, setAccountMenuOpen] = useState(false)
+  const accountMenuRef = useRef<HTMLDivElement>(null)
   const [query, setQuery] = useState('')
   const [statusFilter, setStatusFilter] = useState<'All vehicles' | VehicleStatus>('All vehicles')
   const [updatedAt, setUpdatedAt] = useState('just now')
+
+  useEffect(() => {
+    if (!accountMenuOpen) return
+
+    const closeOnOutsideClick = (event: PointerEvent) => {
+      if (!(event.target instanceof Node) || !accountMenuRef.current?.contains(event.target)) {
+        setAccountMenuOpen(false)
+      }
+    }
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setAccountMenuOpen(false)
+    }
+
+    document.addEventListener('pointerdown', closeOnOutsideClick)
+    document.addEventListener('keydown', closeOnEscape)
+    return () => {
+      document.removeEventListener('pointerdown', closeOnOutsideClick)
+      document.removeEventListener('keydown', closeOnEscape)
+    }
+  }, [accountMenuOpen])
+
+  const handleLogout = () => {
+    setAccountMenuOpen(false)
+    navigate('/', { replace: true })
+  }
 
   const filteredVehicles = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase()
@@ -547,7 +577,36 @@ function FleetDashboard() {
               <Icon name="bell" />
               <span />
             </button>
-            <span className="topbar-avatar">JD</span>
+            <div className="account-menu-container" ref={accountMenuRef}>
+              <button
+                className="topbar-avatar account-avatar-button"
+                type="button"
+                aria-label="Account menu"
+                aria-haspopup="menu"
+                aria-expanded={accountMenuOpen}
+                aria-controls="account-menu"
+                onClick={() => setAccountMenuOpen((open) => !open)}
+              >
+                JD
+              </button>
+              {accountMenuOpen && (
+                <div className="account-menu" id="account-menu" role="menu" aria-label="Account">
+                  <div className="account-menu-profile">
+                    <strong>Jordan Davis</strong>
+                    <span>Fleet manager</span>
+                  </div>
+                  <button
+                    className="account-menu-logout"
+                    type="button"
+                    role="menuitem"
+                    onClick={handleLogout}
+                  >
+                    <Icon name="logout" size={16} />
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </header>
 
